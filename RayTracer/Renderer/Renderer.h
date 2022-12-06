@@ -2,6 +2,9 @@
 #include "Canvas.h"
 #include <SDL.h>
 
+struct Ray;
+class Object;
+
 class Renderer
 {
 public:
@@ -15,9 +18,12 @@ public:
 	void CopyCanvas(const Canvas& canvas);
 	void Present();
 
+	void Render(Canvas& canvas, Object* object);
+
 	friend class Canvas;
 
 private:
+	color3 GetBackgroundFromRay(const Ray& ray);
 	SDL_Window* m_window{ nullptr };
 	SDL_Renderer* m_renderer{ nullptr };
 };
