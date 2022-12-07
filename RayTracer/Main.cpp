@@ -14,7 +14,7 @@ int main(int, char**)
 	Scene scene;
 
 	scene.AddObject(std::make_unique<Sphere>(glm::vec3{ 0, 0, -1 }, 0.5f, std::make_unique<Lambertian>(color3{ 0, 1, 0 })));
-	scene.AddObject(std::make_unique<Sphere>(glm::vec3{ 1, 0, -1 }, 0.2f, std::make_unique<Lambertian>(color3{ 0, 0, 1 })));
+	//scene.AddObject(std::make_unique<Sphere>(glm::vec3{ 1, 0, -1 }, 0.2f, std::make_unique<Lambertian>(color3{ 0, 0, 1 })));
 	scene.AddObject(std::make_unique<Sphere>(glm::vec3{ 0, -100.5, -1 }, 100.0f, std::make_unique<Lambertian>(color3{ 0.2, 0.2, 0.2 })));
 
 	bool quit = false;
@@ -40,7 +40,7 @@ int main(int, char**)
 
 		// render scene
 		canvas.Clear({ 0, 0, 0, 1});
-		renderer.Render(canvas, scene, camera);
+		renderer.Render(canvas, scene, camera, 100);
 		canvas.Update();
 
 		renderer.CopyCanvas(canvas);
