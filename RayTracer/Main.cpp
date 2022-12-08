@@ -1,21 +1,26 @@
 #include "Renderer/Renderer.h"
 #include "Objects/Sphere.h"
 #include "Objects/Scene.h"
+#include "Objects/Plane.h"
 #include <iostream>
 
 int main(int, char**)
 {
+	const int width = 800;
+	const int height = 600;
+	const int samples = 10;
+
 	Renderer renderer;
 	renderer.Initialize();
-	renderer.CreateWindow(600, 300);
+	renderer.CreateWindow(width, height);
 
-	Canvas canvas(600, 300, renderer);
-	Camera camera({ 0, 1, 2 }, { 0, 0, 0 }, { 0, 1, 0 }, 70.0f, 600 / (float)300);
+	Canvas canvas(width, height, renderer);
+	Camera camera({ 0, 1, 2 }, { 0, 0, 0 }, { 0, 1, 0 }, 70.0f, width / (float)height);
 	Scene scene;
 
 	scene.AddObject(std::make_unique<Sphere>(glm::vec3{ 0, 0, -1 }, 0.5f, std::make_unique<Lambertian>(color3{ 0, 1, 0 })));
-	//scene.AddObject(std::make_unique<Sphere>(glm::vec3{ 1, 0, -1 }, 0.2f, std::make_unique<Lambertian>(color3{ 0, 0, 1 })));
-	scene.AddObject(std::make_unique<Sphere>(glm::vec3{ 0, -100.5, -1 }, 100.0f, std::make_unique<Lambertian>(color3{ 0.2, 0.2, 0.2 })));
+	scene.AddObject(std::make_unique<Sphere>(glm::vec3{ 1.3, 0, -1 }, 0.5f, std::make_unique<Metal>(color3{ 1, 1, 1 }, 0.3f)));
+	scene.AddObject(std::make_unique<Plane>(glm::vec3{ 0, -0.4, 0 }, glm::vec3{ 0, 1, 0 }, std::make_unique<Lambertian>(color3{0.2, 0.2, 0.2})));
 
 	bool quit = false;
 	while (!quit) 
@@ -40,7 +45,7 @@ int main(int, char**)
 
 		// render scene
 		canvas.Clear({ 0, 0, 0, 1});
-		renderer.Render(canvas, scene, camera, 100);
+		renderer.Render(canvas, scene, camera, samples);
 		canvas.Update();
 
 		renderer.CopyCanvas(canvas);
